@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import ForgotPassword from "./ForgotPassword";
 import Signup from "./Signup";
 
@@ -7,9 +8,24 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin(e) {
-    e.preventDefault();
-    alert("Login clicked 🚀");
+  async function handleLogin(e) {
+    e.preventDefault(); // stop page refresh
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/auth/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
+
+      alert(response.data);
+    }
+    catch (error) {
+      alert("Login failed ❌");
+      console.log(error);
+    }
   }
 
   return (
