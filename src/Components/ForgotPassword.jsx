@@ -1,11 +1,25 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function ForgotPassword({ goBack, styles }) {
+
   const [email, setEmail] = useState("");
 
-  function handleSend(e) {
+  async function handleSend(e) {
     e.preventDefault();
-    alert(`Reset link sent to ${email} 📩 (UI only)`);
+    console.log("Email sending:", email);
+    try {
+      const response = await axios.post(
+                             "http://localhost:8081/auth/forgot-password",
+                             { email: email }
+                            );
+
+      alert(response.data);
+
+    } catch (error) {
+      alert("Email not found ❌");
+      console.log(error);
+    }
   }
 
   return (
